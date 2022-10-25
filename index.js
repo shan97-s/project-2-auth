@@ -25,7 +25,7 @@ app.use(async (req, res, next)=>{
 
 // CONTROLLERS
 app.use('/users', require('./controllers/users'))
-
+app.use('/lessons',require('./controllers/lessons'))
 // ROUTES
 app.get('/', (req, res)=>{
     res.render('home')

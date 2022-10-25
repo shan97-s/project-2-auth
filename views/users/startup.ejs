@@ -1,0 +1,29 @@
+<h1>Hello, Mr.<%= user.name%>  </h1>
+<h2>Welcome to GA</h2><br>
+<h4 style="display:inline-block">You may post the lessons below</h4><pre style="tab-size: 8;display:inline-block">                                   </pre>
+<h4 style="display:inline-block">Here are the lesssons posted by you<ul style="position:absolute">
+    
+    <% Lesson.forEach(element => { %>
+
+        <h2><%= element.name %></h2>
+    
+        
+    <% });%>
+</ul></h4>
+<pre style="tab-size: 8;display:inline-block">                                   </pre>
+<h4 style="display:inline-block">lesssons posted by others<ul style="position:absolute">
+    <li>>%=lssn      %<</li>
+</ul></h4>
+<form action="/users/startup" method="POST"style="display:block">
+    <label for="name">Lesson Name</label>
+    <input type="name" name="name" id="name">
+    <br><br>
+    <div style="display:inline;"><label for="email" >content</label>
+    <span style="line-height:60px; position:absolute"><input type="email" name="email" id="email"style="height:50px;"></span>
+    </div><pre style="display:inline">                          </pre>
+    <button type="submit"style="position:fixed;margin-top:35px;" >Post</button>
+</form>
+
+
+
+

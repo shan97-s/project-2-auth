@@ -10,7 +10,7 @@ router.get('/new', (req, res)=>{
 })
 
 router.post('/', async (req, res)=>{
-    const [newUser, created] = await db.user.findOrCreate({where:{email: req.body.email}})
+    const [newUser, created] = await db.user.findOrCreate({where:{email: req.body.email,name:req.body.name,password:req.body.password}})
     if(!created){
         console.log('user already exists')
         res.render('users/login.ejs', {error: 'Looks like you already have an account! Try logging in :)'})
@@ -21,8 +21,12 @@ router.post('/', async (req, res)=>{
         const encryptedUserId = cryptojs.AES.encrypt(newUser.id.toString(), process.env.SECRET)
         const encryptedUserIdString = encryptedUserId.toString()
         res.cookie('userId', encryptedUserIdString)
-        res.redirect('/')
+        res.redirect('users/startup.ejs')
     }
+})
+
+router.get('/startup', (req, res)=>{
+    res.render('users/startup.ejs')
 })
 
 router.get('/login', (req, res)=>{
@@ -42,7 +46,7 @@ router.post('/login', async (req, res)=>{
         const encryptedUserId = cryptojs.AES.encrypt(user.id.toString(), process.env.SECRET)
         const encryptedUserIdString = encryptedUserId.toString()
         res.cookie('userId', encryptedUserIdString)
-        res.redirect('/')
+        res.redirect('users/startup')
     }
 })
 
@@ -55,5 +59,7 @@ router.get('/logout', (req, res)=>{
 router.get('/profile', (req, res)=>{
     res.render('users/profile.ejs')
 })
+
+
 
 module.exports = router
