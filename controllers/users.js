@@ -4,10 +4,9 @@ const router = express.Router()
 const cryptojs = require('crypto-js')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
+const user = require('../models/user')
+const lesson = require('../models/lesson')
 
-router.get('/new', (req, res)=>{
-    res.render('users/new.ejs')
-})
 
 
 router.get('/display/:id', async (req, res)=>{
@@ -30,6 +29,7 @@ router.post('/display/:id', async (req,res)=>{
      let pokemon = await db.lesson.findOne({
         where: { id : req.params.id}
     })
+    if(user.id==lesson.userId){
     try{
     pokemon.destroy()
     res.render('users/display.ejs',{lessons:allLessons})
@@ -37,6 +37,10 @@ router.post('/display/:id', async (req,res)=>{
     catch(error){
         console.log(error)
     }
+}
+else {
+    
+}
     res.redirect('../startup')
 })
 

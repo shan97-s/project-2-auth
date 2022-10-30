@@ -5,14 +5,18 @@
    <p><%=lesson.dataValues.desc %></p> 
    <form action="<% lesson.id %> " method="POST">
     <button type="submit">delete</button>
-
+   </form>
         <% }else if(lesson.userId!=user.id && lesson.id==curlsn.id){%>
              <p><b><%=curlsn.dataValues.name %></b></p>
     <p><%=curlsn.dataValues.content %></p>
    <p><%=curlsn.dataValues.desc %></p> 
+        <%}else if(lesson.userId==curlsn.id && user.usertype!=lesson.usertype){%>
+           <p><b><%=curlsn.dataValues.name %></b></p>
+           <p><%=curlsn.dataValues.content %></p>
+           <p><%=curlsn.dataValues.desc %></p>  
         <%}}) %>
 
-    </form>
+    
    
 <button></button>
 

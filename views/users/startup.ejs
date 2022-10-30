@@ -1,3 +1,13 @@
+<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+<!-- Theme included stylesheets -->
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
+<!-- Core build with no theme, formatting, non-essential modules -->
+<link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
+<script src="//cdn.quilljs.com/1.3.6/quill.core.js"></script>
 <h1>Hello, Mr.<%= user.name%>  </h1>
 <h2>Welcome to GA</h2><br>
 <% 
@@ -43,7 +53,7 @@ else{
     <input type="name" name="name" id="name">
     <br><br>
     <div style="display:inline;"><label for="name" >content</label>
-    <span style="line-height:60px; position:absolute"><input type="text" name="content" id="text"style="height:50px;"></span>
+    <span style="line-height:60px; position:absolute"><input type="text" name="content" id="text"style="height:50px;" class="editor"></span>
     <div style="position:absolute;margin-top:55px;"><label for="name">created by</label>
     <input type="name" name="descrip" id="name"></div>>
     </div>
@@ -51,13 +61,50 @@ else{
     <button type="submit" >Post</button>
     
 </form>
+<script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
+<script>
+    var quill = new Quill('.editor', {
+  modules: {
+    'history': {          // Enable with custom configurations
+      'delay': 2500,
+      'userOnly': true
+    },
+    'syntax': true        // Enable with default configuration
+  }
+});
+var Clipboard = Quill.import('modules/clipboard');
+var Delta = Quill.import('delta');
+
+class PlainClipboard extends Clipboard {
+  convert(html = null) {
+    if (typeof html === 'string') {
+      this.container.innerHTML = html;
+    }
+    let text = this.container.innerText;
+    this.container.innerHTML = '';
+    return new Delta().insert(text);
+  }
+}
+
+Quill.register('modules/clipboard', PlainClipboard, true);
+    var options = {
+  debug: 'info',
+  modules: {
+    toolbar: '#toolbar'
+  },
+  placeholder: 'Compose an epic...',
+  readOnly: true,
+  theme: 'snow'
+};
+var editor = new Quill('.editor', options);</script> 
 <pre style="tab-size: 8;display:inline-block">                                   </pre>
 <h4 style="display:block;margin-top:60px;"><%=word2 %> posted by <%=prsn %> 
     <div style="position:absolute;height:100px;width:200px;background-color: black;color:whitesmoke;overflow:auto">
     <% lessons.forEach(lesson => {if(lesson.usertype!=user.usertype){ %>
         
-        <p href="/users/new" style="border:1px solid whitesmoke" ><%= lesson.dataValues.name %></p>
+        <a href="/users/display/<%= lesson.id %>" style="color:inherit"><p style="border:1px solid whitesmoke" ><%= lesson.dataValues.name %></p></a>
         <p><%= lesson.dataValues.content %></p>
         <p><%= lesson.dataValues.desc %></p>
         

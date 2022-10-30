@@ -6,6 +6,8 @@ const db = require('./models')
 const cryptoJS = require('crypto-js')
 require('dotenv').config()
 
+
+
 // MIDDLEWARE
 app.set('view engine', 'ejs')
 app.use(ejsLayouts)
