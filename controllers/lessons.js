@@ -17,13 +17,21 @@ router.post('/startup', async (req, res)=>{
         const encryptedlessonId = cryptojs.AES.encrypt(newlesson.id.toString(), process.env.SECRET)
         const encryptedlessonIdString = encryptedlessonId.toString()
         res.cookie('lessonId', encryptedlessonIdString)
-        res.redirect('users/startup.ejs')
+        res.redirect('startup')
     }
 })
 
 router.get('/startup', async (req, res)=>{
-    const courses = await db.lesson.findAll()
-    res.render('users/startup.ejs', { Lesson: courses })
+    try{
+     const courses = await db.lesson.findAll()
+    console.log('courses', courses)
+     res.render('users/startup.ejs', { Lesson: courses })
+    res.render('users/startup.ejs')
+    }
+    catch(error){
+        console.log(error)
+        res.send('I AM THE PATH')
+    }
 })
 
 

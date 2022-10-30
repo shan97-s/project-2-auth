@@ -11,14 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.user.hasMany(models.lesson)
+      models.lesson.belongsTo(models.user)
     }
   }
   lesson.init({
     name: DataTypes.STRING,
     content: DataTypes.STRING,
     desc: DataTypes.STRING,
-    createdby: DataTypes.STRING
+    userId: DataTypes.INTEGER,
+    usertype: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'lesson',
