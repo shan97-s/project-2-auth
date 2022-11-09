@@ -10,33 +10,42 @@
       <button type="submit">Edit</button>
      </form>
    
-        <% }else if (edit==3&&lesson.userId==user.id && lesson.id==curlsn.id){%> 
-         <p><b><%=lesson.dataValues.name %></b></p><form action="/users/startup" method="POST"style="display:block"><label for="name">Lesson Name</label>
-            <input type="name" name="name" id="name" value="<%=lesson.dataValues.name %>"><br/><label for="name" >content</label><textarea type="text" name="content" id="text"style="height:50px;" value="<%=lesson.dataValues.name %>"></textarea><br/><label for="name">created by</label>
-            <input type="name" name="descrip" id="name"value="<%=lesson.dataValues.desc%>"></form><br><br>
+        <% }else if ((edit==3||edit==4)&&lesson.userId==user.id && lesson.id==curlsn.id){%> 
+         <p><b><%=lesson.dataValues.name %></b></p><form action="/users/startup" method="POST"style="display:block"></form><br><br>
           
          <form action="../4/<%=lesson.id %> " method="POST">
-            <button type="submit">Update</button>
+            <label for="name">Lesson Name</label>
+            <input type="name" name="name" id="name" value="<%=lesson.dataValues.name %>"><br/><label for="name" >content</label><textarea type="text" name="content" id="text"style="height:50px;" ><%=lesson.dataValues.content %></textarea> <br/><label for="name">created by</label>
+            <input type="name" name="descrip" id="name"value="<%=lesson.dataValues.desc%>"><button type="submit">Update</button>
            </form>
          <%}else if(lesson.userId!=user.id && lesson.id==curlsn.id&& curlsn.usertype==user.usertype){%>
              <p><b><%=curlsn.dataValues.name %></b></p>
     <p><%=curlsn.dataValues.content %></p>
    <p><%=curlsn.dataValues.desc %> This is the one</p> 
-        <%}else if(lesson.id==curlsn.id && user.usertype!=curlsn.usertype){%>
+        <%}else if(edit!=3&&lesson.id==curlsn.id){%>
            <p><b><%=curlsn.dataValues.name %></b></p>
            <p><%=curlsn.dataValues.content %></p>
            <p><%=curlsn.dataValues.desc %></p>
-           <form action="<% lesson.id %> " method="POST">
+           <%if(user.usertype==true){%>
+           <form action="../2/<%=lesson.id %> " method="POST">
             <button type="submit">delete</button>
            </form>
-           <form action="<% lesson.id %> " method="POST">
+           <form action="../3/<%=lesson.id %> " method="POST">
             <button type="submit">Edit</button>
+           </form><%}%>
+        <%}else if ((edit==3||edit==4)&&user.usertype && lesson.id==curlsn.id){%> 
+         <p><b><%=lesson.dataValues.name %></b></p><form action="/users/startup" method="POST"style="display:block"></form><br><br>
+          
+         <form action="../4/<%=lesson.id %> " method="POST">
+            <label for="name">Lesson Name</label>
+            <input type="name" name="name" id="name" value="<%=lesson.dataValues.name %>"><br/><label for="name" >content</label><textarea type="text" name="content" id="text"style="height:50px;"><%=lesson.dataValues.name %></textarea><br/><label for="name">created by</label>
+            <input type="name" name="descrip" id="name"value="<%=lesson.dataValues.desc%>"><button type="submit">Update</button>
            </form>
-        <%}
+         <%}
 
         }) %>
 
     
    
-<button></button>
+
 

@@ -76,18 +76,32 @@ router.post(`/display/:k/:id`, async (req,res)=>{
         
     if(req.params.k==2){  
     curlsn.destroy();
-    res.render('users/display.ejs',{lessons:allLessons,edit})
+    //res.render('users/display.ejs',{lessons:allLessons,edit,curlsn})
     }
-    
+    if(req.params.k==4){
+        
+       
+        curlsn.save()
+        console.log("works");
+        curlsn.name=req.body.name
+        console.log(curlsn.name)
+        curlsn.desc=req.body.descrip
+        console.log(req.body.descrip)
+        curlsn.content=req.body.content
+        console.log(curlsn.content)
+        console.log("wow")
+        curlsn.save()
+        
+    }
     }
     catch(error){
-        console.log(req.params.k)
+        console.log("sorry",req.params.k)
     }
 
 //if() {
    // pokemon.content
 //}
-    if(edit==2)
+    if(edit==2 || edit==4)
     res.redirect('../../startup')
     if(edit==3)
     res.render('users/display.ejs',{lessons:allLessons,edit,curlsn})
