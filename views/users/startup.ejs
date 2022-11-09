@@ -24,12 +24,12 @@ else{
   word2="codes"
   prsn="students"
 }
-%> 
+%>  
 <h4 style="display:inline-block">You may post the <%=word %>  below</h4><pre style="tab-size: 8;display:inline-block">                                   </pre>
 <h4 style="display:inline-block;">Here are the <%=word %> posted by you
     <div style="position:absolute;height:100px;width:200px;background-color: black;color:whitesmoke;overflow:auto"><% lessons.forEach(lesson => { if(lesson.userId==user.id){%>
-
-        <a href="/users/display/<%= lesson.id %>" style="color:inherit"><p style="border:1px solid whitesmoke"><span><%=lesson.dataValues.name %></span></p></a>
+      <% let n=1%>
+        <a href="/users/display/<%=n %>/<%=lesson.id %>" style="color:inherit"><p style="border:1px solid whitesmoke"><span><%=lesson.dataValues.name %></span></p></a>
             
             
             <% }}) %>
@@ -40,7 +40,7 @@ else{
     <div style="position:absolute;height:100px;width:200px;background-color: black;color:whitesmoke;overflow:auto">
     <% lessons.forEach(lesson => {if(lesson.userId!=user.id &&lesson.usertype==user.usertype){ %>
         
-        <a href="/users/display/<%= lesson.id %>" style="color:inherit"><p style="border:1px solid whitesmoke"><%= lesson.dataValues.name %></p></a>
+        <a href="/users/display/0/<%= lesson.id %>" style="color:inherit"><p style="border:1px solid whitesmoke"><%= lesson.dataValues.name %></p></a>
         <p><%= lesson.dataValues.content %></p>
         <p><%= lesson.dataValues.desc %></p>
         
@@ -55,7 +55,7 @@ else{
     <div style="display:inline;"><label for="name" >content</label>
     <span style="line-height:60px; position:absolute"><input type="text" name="content" id="text"style="height:50px;" class="editor"></span>
     <div style="position:absolute;margin-top:55px;"><label for="name">created by</label>
-    <input type="name" name="descrip" id="name"></div>>
+    <input type="name" name="descrip" id="name">></div>>
     </div>
     <pre style="display:inline">                          </pre>
     <button type="submit" >Post</button>
@@ -104,7 +104,7 @@ var editor = new Quill('.editor', options);</script>
     <div style="position:absolute;height:100px;width:200px;background-color: black;color:whitesmoke;overflow:auto">
     <% lessons.forEach(lesson => {if(lesson.usertype!=user.usertype){ %>
         
-        <a href="/users/display/<%= lesson.id %>" style="color:inherit"><p style="border:1px solid whitesmoke" ><%= lesson.dataValues.name %></p></a>
+        <a href="/users/display/0/<%= lesson.id %>" style="color:inherit"><p style="border:1px solid whitesmoke" ><%= lesson.dataValues.name %></p></a>
         <p><%= lesson.dataValues.content %></p>
         <p><%= lesson.dataValues.desc %></p>
         
