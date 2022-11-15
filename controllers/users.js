@@ -1,9 +1,14 @@
 const express = require('express')
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 const db = require('../models')
 const router = express.Router()
 const cryptojs = require('crypto-js')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
+const FileReader=require('filereader')
+const puppeteer = require('puppeteer')
+const filesystem=require('fs')
 const user = require('../models/user')
 const lesson = require('../models/lesson')
 const { kdf } = require('crypto-js')
@@ -11,6 +16,32 @@ const { INTEGER } = require('sequelize')
 
 router.get('/new', (req,res)=>{
     res.render('users/new.ejs')
+    var f=req.body.Img;
+    //var k=<HTMLElement/>,
+    //var k=<document.querySelector/
+     window = (new JSDOM(``, { runScripts: 'dangerously', url: 'http://localhost:7000/users/new' })).window
+      const input=window.document.getElementById("pic")
+      //const vare=input.textContent
+      console.log(typeof(input))
+      try{input.addEventListener("change", e =>{
+        console.log("the event triggered")
+      })}
+      catch(error){console.log("its oky")}
+      //var fil=b.files[0]
+    
+    console.log(typeof(f)," this is the file ",f);
+    
+      let dom2=window = (new JSDOM(``, { runScripts: 'dangerously', url: 'http://localhost:7000/users/new' })).window
+      //var k=dom2.window.document.querySelector(".pic").textContent
+console.log(typeof(dom2.window.document.querySelector(".pic")),k); // "Hello world"
+    // if(f!=""){
+    //     const reader=new FileReader()
+    //     reader.readAsDataURL(k);
+    //     console.log(reader);
+    // }
+    var base64String="";
+    
+    
     
 })
 router.get('/startup', async (req, res)=>{
@@ -36,10 +67,6 @@ router.get('/startup', async (req, res)=>{
         console.log('It worked')
         res.render('users/startup.ejs', {lessons: []})
     }
-
-
-
-
 
 
     
@@ -109,6 +136,36 @@ router.post(`/display/:k/:id`, async (req,res)=>{
 
 
 router.post('/', async (req, res)=>{
+    var f=req.body.Img;
+    //var k=<HTMLElement/>,
+    //var k=<document.querySelector/
+    let window = (new JSDOM(``, { runScripts: 'dangerously', url: 'http://localhost:7000/users/new' })).window
+      const input=window.document.querySelector("#pic")
+      console.log(typeof(input))
+      input.addEventListener("change", e =>{
+        console.log(e)
+      })
+      //var fil=b.files[0]
+    
+    console.log(typeof(f)," this is the file ",f);
+    
+      let dom2=window = (new JSDOM(``, { runScripts: 'dangerously', url: 'http://localhost:7000/users/new' })).window
+      var k=dom2.window.document.querySelector(".pic").textContent
+console.log(typeof(dom2.window.document.querySelector(".pic")),k); // "Hello world"
+    if(f!=""){
+        const reader=new FileReader()
+        reader.readAsDataURL(k);
+        console.log(reader);
+    }
+    var base64String="";
+    // var reader=new FileReader();
+    // reader.onload = function(){
+    //     base64String=reader.result.replace("data:","").replace(/^.+,/, "")
+    //     imageBase64Stringsep= base64String;
+    //     console.log(base64String)
+    // }
+    // reader.readAsDataURL(f);
+    // console.log(f)
     const [newUser, created] = await db.user.findOrCreate({where:{email: req.body.email,name:req.body.name,password:req.body.password,usertype:req.body.select}})
     if(!created){
         console.log('user already exists')

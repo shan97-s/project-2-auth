@@ -12,14 +12,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.user.hasMany(models.lesson)
-
     }
   }
   user.init({
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    usertype: DataTypes.BOOLEAN
+    usertype: DataTypes.BOOLEAN,
+    img: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'user',
