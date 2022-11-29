@@ -8,32 +8,92 @@ require('dotenv').config()
 const bcrypt = require('bcrypt')
 const FileReader=require('filereader')
 const puppeteer = require('puppeteer')
-const filesystem=require('fs')
+const fs=require('fs')
 const user = require('../models/user')
 const lesson = require('../models/lesson')
 const { kdf } = require('crypto-js')
 const { INTEGER } = require('sequelize')
+const fetch = require('node-fetch');
+const EventEmitter = require('events');
+var eventEmitter = new EventEmitter();
 
-router.get('/new', (req,res)=>{
+router.get('/new', async (req,res)=>{
     res.render('users/new.ejs')
     var f=req.body.Img;
     //var k=<HTMLElement/>,
     //var k=<document.querySelector/
-     window = (new JSDOM(``, { runScripts: 'dangerously', url: 'http://localhost:7000/users/new' })).window
-      const input=window.document.getElementById("pic")
-      //const vare=input.textContent
-      console.log(typeof(input))
-      try{input.addEventListener("change", e =>{
-        console.log("the event triggered")
-      })}
-      catch(error){console.log("its oky")}
-      //var fil=b.files[0]
+    //let dom = await JSDOM.fromFile("views/users/new.ejs");
+    let dom = await JSDOM.fromFile('views/users/new.ejs', {
+        runScripts: "dangerously",
+        resources: "usable",
+      });
+      console.log(dom.window.document.querySelector('.pic'));
+      var newd=dom.window.document.querySelector('.pic')
+      return new Promise((resolve) => {
+        dom.window.addEventListener("click", () => {
+           
+              //var events = new EventListener(document.body);
+              //events.on('click', callback);
+              var window=dom.window;
+              var document= dom.window.document;
+
+              global.document = window.document;
+              global.window = window;
+              var event = new window.MouseEvent('change', () =>{console.log("done") });
+              global.document.querySelector('.pic').dispatchEvent(event);
+          console.log("it worked")
+        });
+        dom.window.document.querySelector('.pic').addEventListener("load", ()=>{console.log('Hello world')})
+      });
+console.log(dom.getInternalVMContext);
+    k = await fetch('http://localhost:7000/users/new' )
+let html = await k.text()
+var dom1 = new JSDOM(html)
+    // const dom = new JSDOM(``, {
+    //     url: "http://localhost:7000/users/new/",
+    //     referrer: "https://example.com/",
+    //     contentType: "text/html",
+    //     includeNodeLocations: true,
+    //     storageQuota: 1000000000000
+    //   });
     
-    console.log(typeof(f)," this is the file ",f);
+      let check=dom.window.document.querySelector("#pic");
+      //const c=lookupNamespaceURI(check.files[0]);
+      //check.dispatchEvent(new dom.window.MouseEvent('click'));
+      //let c=check.getAttribute('onClick')
+      //console.log(check)
+      //var readStream = fs.createReadStream(c);
+    //   eventEmitter.on('change', check);
+    //   eventEmitter.emit('change')
+    //   dom.window.document.addEventListener('click', e => {
+    //     console.log(typeof(e));
+    //   });
+      check.addEventListener('change', e => { console.log(e); }); 
+
+      
+    //   const myEmitter = new EventEmitter()
+    //   myEmitter.on('newSale', () => {
+    //     console.log('A new sale occur')
+    //   })
+    //   myEmitter.emit('newSale')
+    //   check.addEventListener("change", e=>{
+    //     console.log(e)
+    //   })
+      //console.log(typeof(check))
+//console.log(dom.window.document.querySelector("p").textContent);
+      
+      //console.log(typeof(dom))
+    //   try{dom.addEventListener("change", e =>{
+    //     console.log("the event triggered")
+    //   })}
+    //   catch(error){console.log("its oky")}
+    //   //var fil=b.files[0]
+    
+    //console.log(typeof(f)," this is the file ",f);
     
       let dom2=window = (new JSDOM(``, { runScripts: 'dangerously', url: 'http://localhost:7000/users/new' })).window
       //var k=dom2.window.document.querySelector(".pic").textContent
-console.log(typeof(dom2.window.document.querySelector(".pic")),k); // "Hello world"
+//console.log(typeof(dom2.window.document.querySelector(".pic")),check); // "Hello world"
     // if(f!=""){
     //     const reader=new FileReader()
     //     reader.readAsDataURL(k);
@@ -139,9 +199,16 @@ router.post('/', async (req, res)=>{
     var f=req.body.Img;
     //var k=<HTMLElement/>,
     //var k=<document.querySelector/
-    let window = (new JSDOM(``, { runScripts: 'dangerously', url: 'http://localhost:7000/users/new' })).window
-      const input=window.document.querySelector("#pic")
-      console.log(typeof(input))
+    k = await fetch('http://localhost:7000/users/new' )
+let html = await k.text()
+var dom = new JSDOM(html)
+
+
+    // let window = (new JSDOM(``, { runScripts: 'dangerously', url: 'http://localhost:7000/users/new' })).window
+    //   const input=window.document.querySelector("#pic")
+      let input=dom.window.document.querySelector("#pic");
+      let file=input.files[0]
+      console.log(input)
       input.addEventListener("change", e =>{
         console.log(e)
       })
@@ -149,12 +216,12 @@ router.post('/', async (req, res)=>{
     
     console.log(typeof(f)," this is the file ",f);
     
-      let dom2=window = (new JSDOM(``, { runScripts: 'dangerously', url: 'http://localhost:7000/users/new' })).window
-      var k=dom2.window.document.querySelector(".pic").textContent
-console.log(typeof(dom2.window.document.querySelector(".pic")),k); // "Hello world"
+//       let dom2=window = (new JSDOM(``, { runScripts: 'dangerously', url: 'http://localhost:7000/users/new' })).window
+//       var k=dom2.window.document.querySelector(".pic").textContent
+// console.log(typeof(dom2.window.document.querySelector(".pic")),k); // "Hello world"
     if(f!=""){
         const reader=new FileReader()
-        reader.readAsDataURL(k);
+        reader.readAsDataURL(input);
         console.log(reader);
     }
     var base64String="";
